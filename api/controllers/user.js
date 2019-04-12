@@ -105,3 +105,13 @@ exports.user_delete = (req, res, next) => {
 			})
 		})
 }
+
+exports.user_id = (req, res, next) => {
+	const token = req.body.token
+	const userId = jwt.decode(token).userId
+	console.log(userId)
+
+	res.status(200).json({
+		userId: userId
+	})
+}
