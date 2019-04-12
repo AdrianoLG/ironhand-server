@@ -1,34 +1,7 @@
-const express = require('express')
+const Product = require('../models/food-product')
 const mongoose = require('mongoose')
-const multer = require('multer')
 
-const router = express.Router()
-const Product = require('../../models/food-product')
-
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, './uploads/food-products/')
-	},
-	filename: (req, file, cb) => {
-		cb(null, file.originalname)
-	}
-})
-const fileFilter = (req, file, cb) => {
-	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-		cb(null, true)
-	} else {
-		cb(null, false)
-	}
-}
-const upload = multer({
-	storage: storage,
-	limits: {
-		fileSize: 1024 * 1024 * 3 // 3Mb
-	},
-	fileFilter: fileFilter
-})
-
-router.get('/', (req, res, next) => {
+exports.products_get_all = (req, res, next) => {
 	Product.find()
 		.select('_id name brand category img qty unit productQty expiry tags')
 		.exec()
@@ -46,9 +19,9 @@ router.get('/', (req, res, next) => {
 				error: err
 			})
 		})
-})
+}
 
-router.post('/', upload.single('img'), (req, res, next) => {
+exports.product_create = (req, res, next) => {
 	console.log(req.file)
 	const product = new Product({
 		_id: new mongoose.Types.ObjectId(),
@@ -89,9 +62,9 @@ router.post('/', upload.single('img'), (req, res, next) => {
 				error: err
 			})
 		})
-})
+}
 
-router.get('/:productId', (req, res, next) => {
+exports.product_get = (req, res, next) => {
 	const id = req.params.productId
 	Product.findById(id)
 		.select('_id name brand category img qty unit productQty expiry tags')
@@ -110,9 +83,9 @@ router.get('/:productId', (req, res, next) => {
 			console.log(err)
 			res.status(500).json({ error: err })
 		})
-})
+}
 
-router.patch('/:productId', (req, res, next) => {
+exports.product_update = (req, res, next) => {
 	const id = req.params.productId
 	// Get properties set in the body
 	const updateOps = {}
@@ -134,9 +107,9 @@ router.patch('/:productId', (req, res, next) => {
 				error: err
 			})
 		})
-})
+}
 
-router.delete('/:productId', (req, res, next) => {
+exports.product_delete = (req, res, next) => {
 	const id = req.params.productId
 	Product.deleteOne({ _id: id })
 		.exec()
@@ -151,6 +124,4 @@ router.delete('/:productId', (req, res, next) => {
 				error: err
 			})
 		})
-})
-
-module.exports = router
+}

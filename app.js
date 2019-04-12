@@ -7,7 +7,8 @@ require('dotenv').config()
 const app = express()
 
 // Routes path
-const foodRoutes = require('./api/routes/food/products')
+const foodProductRoutes = require('./api/routes/food-product')
+const userRoutes = require('./api/routes/user')
 
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
 	useNewUrlParser: true
@@ -29,7 +30,8 @@ app.use((req, res, next) => {
 })
 
 // Routes usage
-app.use('/food', foodRoutes)
+app.use('/food', foodProductRoutes)
+app.use('/user', userRoutes)
 
 // Handling errors
 app.use((req, res, next) => {
