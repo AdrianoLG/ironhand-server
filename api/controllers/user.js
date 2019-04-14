@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
-mongoose.set('useCreateIndex', true)
-
 exports.user_signup = (req, res, next) => {
 	User.find({ email: req.body.email })
 		.exec()
@@ -50,7 +48,7 @@ exports.user_login = (req, res, next) => {
 	User.findOne({ email: req.body.email })
 		.exec()
 		.then(user => {
-			if (user.length < 1) {
+			if (!user) {
 				return res.status(401).json({
 					message: 'Auth failed'
 				})

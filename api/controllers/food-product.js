@@ -1,6 +1,5 @@
 const Product = require('../models/food-product')
 const mongoose = require('mongoose')
-const User = require('../models/user')
 
 exports.products_get_all = (req, res, next) => {
 	Product.find({ userId: req.userData.userId })

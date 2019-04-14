@@ -10,15 +10,20 @@ const app = express()
 const foodProductRoutes = require('./api/routes/food-product')
 const userRoutes = require('./api/routes/user')
 
+// DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
-	useNewUrlParser: true
+	useNewUrlParser: true,
+	useCreateIndex: true
 })
 
 // Use logging and prettify JSON
 app.use(morgan('dev'))
+// Folder to save images
 app.use('/uploads', express.static('uploads'))
+// req.body
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+// Headers
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*')
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
