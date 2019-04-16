@@ -1,2 +1,3 @@
 require('./test/user.test')
-require('./test/food-product.test')
+require('./test/todos.test')
+require('./test/food.test')

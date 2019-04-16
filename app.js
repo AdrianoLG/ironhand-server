@@ -7,8 +7,9 @@ require('dotenv').config()
 const app = express()
 
 // Routes path
-const foodProductRoutes = require('./api/routes/food-product')
 const userRoutes = require('./api/routes/user')
+const todoRoutes = require('./api/routes/todos')
+const foodRoutes = require('./api/routes/food')
 
 // DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
@@ -35,8 +36,9 @@ app.use((req, res, next) => {
 })
 
 // Routes usage
-app.use('/food', foodProductRoutes)
 app.use('/user', userRoutes)
+app.use('/todos', todoRoutes)
+app.use('/food', foodRoutes)
 
 // Handling errors
 app.use((req, res, next) => {

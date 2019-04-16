@@ -26,7 +26,6 @@ exports.user_signup = (req, res, next) => {
 						user
 							.save()
 							.then(result => {
-								console.log(res)
 								res.status(201).json({
 									message: 'User created'
 								})
@@ -106,10 +105,16 @@ exports.user_delete = (req, res, next) => {
 
 exports.user_id = (req, res, next) => {
 	const token = req.body.token
-	const userId = jwt.decode(token).userId
-	console.log(userId)
-
-	res.status(200).json({
-		userId: userId
-	})
+	try {
+		const userId = jwt.decode(token).userId
+		console.log(userId)
+		res.status(200).json({
+			userId: userId
+		})
+	} catch (err) {
+		console.log(err)
+		res.status(500).json({
+			error: err
+		})
+	}
 }

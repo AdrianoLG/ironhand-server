@@ -40,7 +40,7 @@ exports.product_create = (req, res, next) => {
 		.then(result => {
 			console.log(result)
 			res.status(201).json({
-				message: 'Food product succesfully saved',
+				message: 'Food product created',
 				createdProduct: {
 					_id: result._id,
 					userId: req.userData.userId,
@@ -81,6 +81,11 @@ exports.product_get = (req, res, next) => {
 		})
 		.catch(err => {
 			console.log(err)
+			if (err.kind == 'ObjectId') {
+				return res.status(404).json({
+					message: 'No food product with that ID'
+				})
+			}
 			res.status(500).json({ error: err })
 		})
 }
@@ -100,7 +105,7 @@ exports.product_update = (req, res, next) => {
 		.then(result => {
 			console.log(result)
 			res.status(200).json({
-				message: 'Product updated'
+				message: 'Food product updated'
 			})
 		})
 		.catch(err => {
@@ -125,7 +130,7 @@ exports.product_delete = (req, res, next) => {
 				.exec()
 				.then(result => {
 					res.status(200).json({
-						message: 'Product ' + id + ' succesfully deleted'
+						message: 'Food product deleted'
 					})
 				})
 				.catch(err => {

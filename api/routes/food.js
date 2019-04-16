@@ -29,10 +29,10 @@ const upload = multer({
 	fileFilter: fileFilter
 })
 
-router.get('/', checkAuth, ProductController.products_get_all)
-router.post('/', checkAuth, upload.single('img'), ProductController.product_create)
-router.get('/:productId', checkAuth, ProductController.product_get)
-router.patch('/:productId', checkAuth, ProductController.product_update)
-router.delete('/:productId', checkAuth, ProductController.product_delete)
+router.get('/products', checkAuth, ProductController.products_get_all)
+router.post('/products', checkAuth, upload.single('img'), ProductController.product_create)
+router.get('/products/:productId', checkAuth, ProductController.product_get)
+router.patch('/products/:productId', checkAuth, ProductController.product_update)
+router.delete('/products/:productId', checkAuth, ProductController.product_delete)
 
 module.exports = router

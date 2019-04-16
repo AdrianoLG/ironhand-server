@@ -6,7 +6,7 @@ let token = ''
 
 describe('USER - Test user does not exist', function() {
 	it('should return a 401 response', function(done) {
-		api.get('/food').set('Accept', 'application/json').expect(401).end((err, res) => {
+		api.get('/food/products').set('Accept', 'application/json').expect(401).end((err, res) => {
 			expect(res.body.message).to.equal('Auth failed')
 			done()
 		})
@@ -50,7 +50,7 @@ describe('USER - Test user login', function() {
 
 describe('USER - Test user does exist', function() {
 	it('should return a 200 response', function(done) {
-		api.get('/food').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
+		api.get('/food/products').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
 			expect(res.body.count).to.equal(0)
 			done()
 		})

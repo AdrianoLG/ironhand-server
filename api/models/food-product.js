@@ -11,7 +11,7 @@ const productSchema = mongoose.Schema({
 	unit: { type: String, required: true },
 	productQty: { type: Number, min: 0 },
 	expiry: Date,
-	tags: String
+	tags: Array
 })
 
 module.exports = mongoose.model('Product', productSchema)
