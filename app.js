@@ -9,7 +9,10 @@ const app = express()
 // Routes path
 const userRoutes = require('./api/routes/user')
 const todoRoutes = require('./api/routes/todos')
+const projectRoutes = require('./api/routes/projects')
 const foodRoutes = require('./api/routes/food')
+const drinkRoutes = require('./api/routes/drinks')
+const libraryRoutes = require('./api/routes/library')
 
 // DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
@@ -19,11 +22,14 @@ mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
 
 // Use logging and prettify JSON
 app.use(morgan('dev'))
+
 // Folder to save images
 app.use('/uploads', express.static('uploads'))
+
 // req.body
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
 // Headers
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*')
@@ -38,7 +44,10 @@ app.use((req, res, next) => {
 // Routes usage
 app.use('/user', userRoutes)
 app.use('/todos', todoRoutes)
+app.use('/projects', projectRoutes)
 app.use('/food', foodRoutes)
+app.use('/drinks', drinkRoutes)
+app.use('/library', libraryRoutes)
 
 // Handling errors
 app.use((req, res, next) => {
