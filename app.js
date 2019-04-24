@@ -13,6 +13,7 @@ const projectRoutes = require('./api/routes/projects')
 const foodRoutes = require('./api/routes/food')
 const drinkRoutes = require('./api/routes/drinks')
 const libraryRoutes = require('./api/routes/library')
+const videoLibraryRoutes = require('./api/routes/video-library')
 
 // DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
@@ -48,6 +49,7 @@ app.use('/projects', projectRoutes)
 app.use('/food', foodRoutes)
 app.use('/drinks', drinkRoutes)
 app.use('/library', libraryRoutes)
+app.use('/video-library', videoLibraryRoutes)
 
 // Handling errors
 app.use((req, res, next) => {
