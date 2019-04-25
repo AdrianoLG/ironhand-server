@@ -10,7 +10,7 @@ let token = ''
 let id = ''
 let projectId = ''
 
-describe('Project CRUD', function() {
+describe('Projects CRUD', function() {
 	// Creates user and retrieves token before test
 	before(function(done) {
 		api
