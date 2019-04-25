@@ -16,6 +16,12 @@ const libraryRoutes = require('./api/routes/library')
 const videoLibraryRoutes = require('./api/routes/video-library')
 const plantsRoutes = require('./api/routes/plants')
 const joyGardenRoutes = require('./api/routes/joy-garden')
+const recipeesRoutes = require('./api/routes/recipees')
+const cocktailsRoutes = require('./api/routes/cocktails')
+const wateringsRoutes = require('./api/routes/waterings')
+const cleanupRoutes = require('./api/routes/cleanup')
+const exerciseRoutes = require('./api/routes/exercise')
+const rehearsalsRoutes = require('./api/routes/rehearsals')
 
 // DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
@@ -54,6 +60,12 @@ app.use('/library', libraryRoutes)
 app.use('/video-library', videoLibraryRoutes)
 app.use('/plants', plantsRoutes)
 app.use('/joy-garden', joyGardenRoutes)
+app.use('/recipees', recipeesRoutes)
+app.use('/cocktails', cocktailsRoutes)
+app.use('/waterings', wateringsRoutes)
+app.use('/cleanup', cleanupRoutes)
+app.use('/exercise', exerciseRoutes)
+app.use('/rehearsals', rehearsalsRoutes)
 
 // Handling errors
 app.use((req, res, next) => {

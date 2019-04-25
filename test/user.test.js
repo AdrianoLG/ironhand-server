@@ -1,6 +1,10 @@
-const expect = require('chai').expect
 const supertest = require('supertest')
-const api = supertest('http://192.168.1.43:32776')
+const api = supertest(process.env.NODE_HOST)
+const chai = require('chai')
+const assertArrays = require('chai-arrays')
+
+const expect = chai.expect
+chai.use(assertArrays)
 
 let token = ''
 
