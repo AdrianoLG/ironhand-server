@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.meals_get_all = (req, res, next) => {
 	Meal.find({ userId: req.userData.userId })
 		.select('_id userId breakfast lunch dinner date')
+		.sort('-date')
 		.exec()
 		.then(meals => {
 			const response = {
