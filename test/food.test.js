@@ -5,6 +5,8 @@ const api = supertest(process.env.NODE_HOST)
 let token = ''
 let id = ''
 let productId = ''
+let mealId = ''
+let suggestionId = ''
 
 describe('Food CRUD', function() {
 	// Creates user and retrieves token before test
@@ -44,6 +46,24 @@ describe('Food CRUD', function() {
 		})
 	})
 
+	it('should return an empty food meals list', function(done) {
+		api.get('/food/meals').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
+			expect(res.body).to.have.property('count')
+			expect(res.body.count).to.equal(0)
+			expect(res.body).to.have.property('meals')
+			done()
+		})
+	})
+
+	it('should return an empty food suggestions list', function(done) {
+		api.get('/food/suggestions').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
+			expect(res.body).to.have.property('count')
+			expect(res.body.count).to.equal(0)
+			expect(res.body).to.have.property('suggestions')
+			done()
+		})
+	})
+
 	it('should create a food product', function(done) {
 		api
 			.post('/food/products')
@@ -76,6 +96,67 @@ describe('Food CRUD', function() {
 			})
 	})
 
+	it('should create a meal', function(done) {
+		api
+			.post('/food/meals')
+			.set('Authorization', `Bearer ${token}`)
+			.send({
+				breakfast: [
+					'Café',
+					'Donut'
+				],
+				lunch: [
+					'Lasaña de queso',
+					'Plátano'
+				],
+				dinner: [
+					'Huevos fritos',
+					'Patatas fritas',
+					'Filete de ternera',
+					'Yogur de chocolate'
+				],
+				date: '2019-04-01T22:00:00'
+			})
+			.expect(201)
+			.end((err, res) => {
+				mealId = res.body.createdMeal._id
+				expect(res.body.message).to.equal('Meal created')
+				expect(res.body.createdMeal.breakfast).to.be.an.instanceof(Array)
+				expect(res.body.createdMeal.lunch).to.be.an.instanceof(Array)
+				expect(res.body.createdMeal.dinner).to.be.an.instanceof(Array)
+				expect(res.body.createdMeal.date).to.equal('2019-04-01T22:00:00.000Z')
+				done()
+			})
+	})
+
+	it('should create a suggestion', function(done) {
+		api
+			.post('/food/suggestions')
+			.set('Authorization', `Bearer ${token}`)
+			.send({
+				name: 'Puré de espinacas',
+				season: [
+					'Primavera',
+					'Otoño',
+					'Invierno'
+				],
+				ingredients: [
+					'Espinacas',
+					'Bechamel',
+					'Leche',
+					'Sal'
+				]
+			})
+			.expect(201)
+			.end((err, res) => {
+				suggestionId = res.body.createdSuggestion._id
+				expect(res.body.message).to.equal('Suggestion created')
+				expect(res.body.createdSuggestion.season).to.be.an.instanceof(Array)
+				expect(res.body.createdSuggestion.ingredients).to.be.an.instanceof(Array)
+				done()
+			})
+	})
+
 	it('should update a food product', function(done) {
 		api
 			.patch(`/food/products/${productId}`)
@@ -90,6 +171,39 @@ describe('Food CRUD', function() {
 			})
 	})
 
+	it('should update a meal', function(done) {
+		api
+			.patch(`/food/meals/${mealId}`)
+			.set('Authorization', `Bearer ${token}`)
+			.send([
+				{
+					propName: 'lunch',
+					value: [
+						'Lasaña de queso'
+					]
+				}
+			])
+			.expect(200)
+			.end((err, res) => {
+				expect(res.body.message).to.equal('Meal updated')
+				done()
+			})
+	})
+
+	it('should update a suggestion', function(done) {
+		api
+			.patch(`/food/suggestions/${suggestionId}`)
+			.set('Authorization', `Bearer ${token}`)
+			.send([
+				{ propName: 'name', value: 'Puré de patatas' }
+			])
+			.expect(200)
+			.end((err, res) => {
+				expect(res.body.message).to.equal('Suggestion updated')
+				done()
+			})
+	})
+
 	it('should get updated food product', function(done) {
 		api.get(`/food/products/${productId}`).set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
 			expect(res.body.name).to.equal('Pimientos del piquillo')
@@ -98,9 +212,41 @@ describe('Food CRUD', function() {
 		})
 	})
 
+	it('should get updated meal', function(done) {
+		api.get(`/food/meals/${mealId}`).set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
+			expect(res.body.lunch).to.be.ofSize(1)
+			done()
+		})
+	})
+
+	it('should get updated suggestion', function(done) {
+		api
+			.get(`/food/suggestions/${suggestionId}`)
+			.set('Authorization', `Bearer ${token}`)
+			.expect(200)
+			.end((err, res) => {
+				expect(res.body.name).to.equal('Puré de patatas')
+				done()
+			})
+	})
+
 	it('should fail to get food product with wrong ID', function(done) {
 		api.get('/food/products/abc').set('Authorization', `Bearer ${token}`).expect(400).end((err, res) => {
 			expect(res.body.message).to.equal('No food product with that ID')
+			done()
+		})
+	})
+
+	it('should fail to get meal with wrong ID', function(done) {
+		api.get('/food/meals/abc').set('Authorization', `Bearer ${token}`).expect(400).end((err, res) => {
+			expect(res.body.message).to.equal('No meal with that ID')
+			done()
+		})
+	})
+
+	it('should fail to get suggestion with wrong ID', function(done) {
+		api.get('/food/suggestions/abc').set('Authorization', `Bearer ${token}`).expect(400).end((err, res) => {
+			expect(res.body.message).to.equal('No suggestion with that ID')
 			done()
 		})
 	})
@@ -112,11 +258,43 @@ describe('Food CRUD', function() {
 		})
 	})
 
+	it('should fail to get meal if no user ID is present', function(done) {
+		api.get(`/food/meals/${mealId}`).set('Authorization', 'Bearer ABC').expect(401).end((err, res) => {
+			expect(res.body.message).to.equal('Auth failed')
+			done()
+		})
+	})
+
+	it('should fail to get suggestion if no user ID is present', function(done) {
+		api.get(`/food/suggestions/${suggestionId}`).set('Authorization', 'Bearer ABC').expect(401).end((err, res) => {
+			expect(res.body.message).to.equal('Auth failed')
+			done()
+		})
+	})
+
 	it('should delete food product', function(done) {
 		api.delete(`/food/products/${productId}`).set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
 			expect(res.body.message).to.equal('Food product deleted')
 			done()
 		})
+	})
+
+	it('should delete meal', function(done) {
+		api.delete(`/food/meals/${mealId}`).set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
+			expect(res.body.message).to.equal('Meal deleted')
+			done()
+		})
+	})
+
+	it('should delete suggestion', function(done) {
+		api
+			.delete(`/food/suggestions/${suggestionId}`)
+			.set('Authorization', `Bearer ${token}`)
+			.expect(200)
+			.end((err, res) => {
+				expect(res.body.message).to.equal('Suggestion deleted')
+				done()
+			})
 	})
 
 	after(function(done) {
