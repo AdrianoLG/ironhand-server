@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 
 exports.todos_get_all = (req, res, next) => {
 	Todo.find({ userId: req.userData.userId })
-		.select('_id name category priority')
+		.select('_id name category priority completed')
+		.sort({ completed: 'asc', priority: 'desc', category: 'desc' })
 		.exec()
 		.then(todos => {
 			const response = {
@@ -27,7 +28,8 @@ exports.todo_create = (req, res, next) => {
 		userId: req.userData.userId,
 		name: req.body.name,
 		category: req.body.category,
-		priority: req.body.priority
+		priority: req.body.priority,
+		completed: false
 	})
 	todo
 		.save()
@@ -39,7 +41,8 @@ exports.todo_create = (req, res, next) => {
 					_id: result._id,
 					name: result.name,
 					category: result.category,
-					priority: result.priority
+					priority: result.priority,
+					completed: false
 				}
 			})
 		})
@@ -54,7 +57,7 @@ exports.todo_create = (req, res, next) => {
 exports.todo_get = (req, res, next) => {
 	const id = req.params.todoId
 	Todo.findOne({ _id: id, userId: req.userData.userId })
-		.select('_id name category priority')
+		.select('_id name category priority completed')
 		.exec()
 		.then(todo => {
 			console.log(todo)
