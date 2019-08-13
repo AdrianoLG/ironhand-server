@@ -10,5 +10,6 @@ router.post('/', checkAuth, TodosController.todo_create)
 router.get('/:todoId', checkAuth, TodosController.todo_get)
 router.patch('/:todoId', checkAuth, TodosController.todo_update)
 router.delete('/:todoId', checkAuth, TodosController.todo_delete)
+router.delete('/', checkAuth, TodosController.todo_delete_completed)
 
 module.exports = router

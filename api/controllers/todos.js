@@ -102,7 +102,7 @@ exports.todo_update = (req, res, next) => {
 
 exports.todo_delete = (req, res, next) => {
 	const id = req.params.todoId
-	Todo.findOne({ _id: id, userId: req.userData.userId })
+	Todo.findOne({ completed: 'id', userId: req.userData.userId })
 		.exec()
 		.then(result => {
 			if (!result) {
@@ -123,6 +123,23 @@ exports.todo_delete = (req, res, next) => {
 						error: err
 					})
 				})
+		})
+		.catch()
+}
+
+exports.todo_delete_completed = (req, res, next) => {
+	Todo.deleteMany({ completed: true, userId: req.userData.userId })
+		.exec()
+		.then(result => {
+			res.status(200).json({
+				message: 'Completed todos deleted'
+			})
+		})
+		.catch(err => {
+			console.log(err)
+			res.status(500).json({
+				error: err
+			})
 		})
 		.catch()
 }
