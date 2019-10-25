@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.waterings_get_all = (req, res, next) => {
 	Watering.find({ userId: req.userData.userId })
 		.select('_id container date fertilizer')
+		.sort({ date: 'desc', container: 'asc' })
 		.exec()
 		.then(waterings => {
 			const response = {

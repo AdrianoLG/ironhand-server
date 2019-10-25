@@ -8,7 +8,7 @@ exports.jgSeeds_get_all = (req, res, next) => {
 		.then(jgSeeds => {
 			const response = {
 				count: jgSeeds.length,
-				jgSeeds: jgSeeds
+				seeds: jgSeeds
 			}
 			console.log(jgSeeds)
 			res.status(200).json(response)
