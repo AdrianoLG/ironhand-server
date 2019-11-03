@@ -8,7 +8,7 @@ exports.jgPlants_get_all = (req, res, next) => {
 		.then(jgPlants => {
 			const response = {
 				count: jgPlants.length,
-				jgPlants: jgPlants
+				plants: jgPlants
 			}
 			console.log(jgPlants)
 			res.status(200).json(response)
