@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.foodSuggestions_get_all = (req, res, next) => {
 	FoodSuggestion.find({ userId: req.userData.userId })
-		.select('_id userId breakfast lunch dinner date')
+		.select('_id userId name season ingredients')
 		.exec()
 		.then(foodSuggestions => {
 			const response = {
