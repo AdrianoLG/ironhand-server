@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.completedExercises_get_all = (req, res, next) => {
 	CompletedExercise.find({ userId: req.userData.userId })
 		.select('_id exerciseId date repetitions time minHeart maxHeart')
+		.sort({ date: 'desc', minHeart: 'asc' })
 		.exec()
 		.then(completedExercises => {
 			const response = {
