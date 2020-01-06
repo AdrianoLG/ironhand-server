@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.cleaningTasks_get_all = (req, res, next) => {
 	CleaningTask.find({ userId: req.userData.userId })
 		.select('_id place date tasks')
+		.sort({ date: 'desc', place: 'asc' })
 		.exec()
 		.then(cleaningTasks => {
 			const response = {
