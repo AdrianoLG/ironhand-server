@@ -49,6 +49,7 @@ describe('Todos CRUD', function() {
 			.post('/rehearsals')
 			.set('Authorization', `Bearer ${token}`)
 			.send({
+				date: '23-02-2020',
 				instrument: 'Guitarra eléctrica',
 				time: 30,
 				sheets: [
@@ -66,6 +67,7 @@ describe('Todos CRUD', function() {
 			.end((err, res) => {
 				rehearsalId = res.body.createdRehearsal._id
 				expect(res.body.message).to.equal('Rehearsal created')
+				expect(res.body.createdRehearsal.date).to.equal('23-02-2020')
 				expect(res.body.createdRehearsal.instrument).to.equal('Guitarra eléctrica')
 				expect(res.body.createdRehearsal.time).to.equal(30)
 				expect(res.body.createdRehearsal.sheets).to.be.array()

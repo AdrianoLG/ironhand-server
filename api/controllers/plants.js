@@ -6,6 +6,7 @@ exports.plants_get_all = (req, res, next) => {
 		.select(
 			'_id name scientific container zone gallery sun watering wateringFrequency frost soil flowering perishable pests img origin transplant death deathCause'
 		)
+		.sort({ death: 'asc', name: 'asc' })
 		.exec()
 		.then(plants => {
 			const response = {

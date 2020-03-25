@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.rehearsals_get_all = (req, res, next) => {
 	Rehearsal.find({ userId: req.userData.userId })
-		.select('_id instrument time sheets')
+		.select('_id date instrument time sheets')
 		.exec()
 		.then(rehearsals => {
 			const response = {
@@ -25,6 +25,7 @@ exports.rehearsal_create = (req, res, next) => {
 	const rehearsal = new Rehearsal({
 		_id: new mongoose.Types.ObjectId(),
 		userId: req.userData.userId,
+		date: req.body.date,
 		instrument: req.body.instrument,
 		time: req.body.time,
 		sheets: req.body.sheets
@@ -37,6 +38,7 @@ exports.rehearsal_create = (req, res, next) => {
 				message: 'Rehearsal created',
 				createdRehearsal: {
 					_id: result._id,
+					date: result.date,
 					instrument: result.instrument,
 					time: result.time,
 					sheets: result.sheets
@@ -54,7 +56,7 @@ exports.rehearsal_create = (req, res, next) => {
 exports.rehearsal_get = (req, res, next) => {
 	const id = req.params.rehearsalId
 	Rehearsal.findOne({ _id: id, userId: req.userData.userId })
-		.select('_id instrument time sheets')
+		.select('_id date instrument time sheets')
 		.exec()
 		.then(rehearsal => {
 			console.log(rehearsal)
