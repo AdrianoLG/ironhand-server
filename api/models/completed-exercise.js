@@ -8,7 +8,8 @@ const completedExerciseSchema = mongoose.Schema({
 	repetitions: { type: Number },
 	time: { type: Number },
 	minHeart: { type: Number },
-	maxHeart: { type: Number }
+	maxHeart: { type: Number },
+	weight: { type: Number }
 })
 
 module.exports = mongoose.model('CompletedExercise', completedExerciseSchema)

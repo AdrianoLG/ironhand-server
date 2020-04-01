@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 exports.completedExercises_get_all = (req, res, next) => {
 	CompletedExercise.find({ userId: req.userData.userId })
-		.select('_id exerciseId date repetitions time minHeart maxHeart')
+		.select('_id exerciseId date repetitions time minHeart maxHeart weight')
 		.sort({ date: 'desc', minHeart: 'asc' })
 		.exec()
 		.then(completedExercises => {
@@ -31,7 +31,8 @@ exports.completedExercise_create = (req, res, next) => {
 		repetitions: req.body.repetitions,
 		time: req.body.time,
 		minHeart: req.body.minHeart,
-		maxHeart: req.body.maxHeart
+		maxHeart: req.body.maxHeart,
+		weight: req.body.weight
 	})
 	completedExercise
 		.save()
@@ -46,7 +47,8 @@ exports.completedExercise_create = (req, res, next) => {
 					repetitions: result.repetitions,
 					time: result.time,
 					minHeart: result.minHeart,
-					maxHeart: result.maxHeart
+					maxHeart: result.maxHeart,
+					weight: result.weight
 				}
 			})
 		})
@@ -61,7 +63,7 @@ exports.completedExercise_create = (req, res, next) => {
 exports.completedExercise_get = (req, res, next) => {
 	const id = req.params.completedExerciseId
 	CompletedExercise.findOne({ _id: id, userId: req.userData.userId })
-		.select('_id exerciseId date repetitions time minHeart maxHeart')
+		.select('_id exerciseId date repetitions time minHeart maxHeart weight')
 		.exec()
 		.then(completedExercise => {
 			console.log(completedExercise)
