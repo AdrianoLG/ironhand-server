@@ -22,9 +22,12 @@ const wateringsRoutes = require('./api/routes/waterings')
 const cleanupRoutes = require('./api/routes/cleanup')
 const exerciseRoutes = require('./api/routes/exercise')
 const rehearsalsRoutes = require('./api/routes/rehearsals')
+const alertsRoutes = require('./api/routes/alerts')
+const statisticsRoutes = require('./api/routes/statistics')
 
 // DB connection
 mongoose.connect(`mongodb://${process.env.DB_HOST}`, {
+	useUnifiedTopology: true,
 	useNewUrlParser: true,
 	useCreateIndex: true
 })
@@ -66,6 +69,8 @@ app.use('/waterings', wateringsRoutes)
 app.use('/cleanup', cleanupRoutes)
 app.use('/exercise', exerciseRoutes)
 app.use('/rehearsals', rehearsalsRoutes)
+app.use('/alerts', alertsRoutes)
+app.use('/statistics', statisticsRoutes)
 
 // Handling errors
 app.use((req, res, next) => {
