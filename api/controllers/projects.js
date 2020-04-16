@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.projects_get_all = (req, res, next) => {
 	Project.find({ userId: req.userData.userId })
 		.select('_id name category todo doing done')
+		.sort({ category: 'asc', name: 'asc' })
 		.exec()
 		.then(projects => {
 			const response = {

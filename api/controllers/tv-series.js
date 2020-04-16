@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.tvSeries_get_all = (req, res, next) => {
 	TvSeries.find({ userId: req.userData.userId })
 		.select('_id title director cast tv country beginDate lastSeen ended endDate categories episodeDuration img')
+		.sort({ _id: 'desc' })
 		.exec()
 		.then(tvSeries => {
 			const response = {

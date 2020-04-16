@@ -12,8 +12,9 @@ exports.alerts_get_all = (req, res, next) => {
         function(callback) {
             var query = Todo.find({ userId: req.userData.userId })
                 .select('name priority')
-                .where({ priority: {$gt: 8}})
-                .sort({ priority: 'desc', name: 'asc'})
+                .where({ priority: {$gt: 8} })
+                .where({ completed: {$lt: 1} })
+                .sort({ priority: 'desc', name: 'asc' })
             query.exec(function(err, importantTasks) {
                 if (err) {
                     callback(err)
@@ -81,7 +82,6 @@ exports.alerts_get_all = (req, res, next) => {
                 if (err) {
                     callback(err)
                 }
-                console.log(lastWatering)
                 callback(null, lastWatering)
             })
         },
@@ -94,7 +94,6 @@ exports.alerts_get_all = (req, res, next) => {
                 if (err) {
                     callback(err)
                 }
-                console.log(cleaningTasks)
                 callback(null, cleaningTasks)
             })
         },        
@@ -107,7 +106,6 @@ exports.alerts_get_all = (req, res, next) => {
                 if (err) {
                     callback(err)
                 }
-                console.log(cleaningTasks)
                 callback(null, cleaningTasks)
             })
         }        
