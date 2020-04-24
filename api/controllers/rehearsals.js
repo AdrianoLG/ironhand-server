@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 exports.rehearsals_get_all = (req, res, next) => {
 	Rehearsal.find({ userId: req.userData.userId })
 		.select('_id date instrument time sheets')
+		.sort({ date: 'desc' })
 		.exec()
 		.then(rehearsals => {
 			const response = {

@@ -5,7 +5,6 @@ var async = require('async')
 
 exports.statistics_get_all = (req, res, next) => {
     var weekAgo = new Date(new Date() - 7 * 60 * 60 * 24 * 1000).toISOString()
-    console.log(weekAgo)
     async.parallel([
         function(callback) {
             var query = CompletedExercise.find({ userId: req.userData.userId } )
