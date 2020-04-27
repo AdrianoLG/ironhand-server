@@ -63,7 +63,7 @@ exports.cleaningTask_get = (req, res, next) => {
 		})
 		.catch(err => {
 			console.log(err)
-			if (err.kind == 'ObjectId') {
+			if (err.kind == 'ObjectId' || err.name == 'CastError') {
 				return res.status(404).json({
 					message: 'No cleaning task with that ID'
 				})

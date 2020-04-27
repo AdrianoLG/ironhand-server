@@ -101,7 +101,7 @@ describe('Drinks CRUD', function() {
 	})
 
 	it('should fail to get drink with wrong ID', function(done) {
-		api.get('/drinks/abc').set('Authorization', `Bearer ${token}`).expect(400).end((err, res) => {
+		api.get('/drinks/abc').set('Authorization', `Bearer ${token}`).expect(404).end((err, res) => {
 			expect(res.body.message).to.equal('No drink with that ID')
 			done()
 		})

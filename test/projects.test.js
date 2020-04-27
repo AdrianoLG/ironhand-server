@@ -115,7 +115,7 @@ describe('Projects CRUD', function() {
 	})
 
 	it('should fail to get project with wrong ID', function(done) {
-		api.get('/projects/abc').set('Authorization', `Bearer ${token}`).expect(400).end((err, res) => {
+		api.get('/projects/1abc').set('Authorization', `Bearer ${token}`).expect(404).end((err, res) => {
 			expect(res.body.message).to.equal('No project with that ID')
 			done()
 		})

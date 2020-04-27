@@ -6,7 +6,7 @@ let token = ''
 let id = ''
 let rehearsalId = ''
 
-describe('Todos CRUD', function() {
+describe('Rehearsals CRUD', function() {
 	// Creates user and retrieves token before test
 	before(function(done) {
 		api

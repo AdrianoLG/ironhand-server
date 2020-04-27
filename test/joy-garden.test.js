@@ -40,7 +40,7 @@ describe('Joy Garden CRUD', function() {
 		api.get('/joy-garden/seeds').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
 			expect(res.body).to.have.property('count')
 			expect(res.body.count).to.equal(0)
-			expect(res.body).to.have.property('jgSeeds')
+			expect(res.body).to.have.property('seeds')
 			done()
 		})
 	})
@@ -49,7 +49,7 @@ describe('Joy Garden CRUD', function() {
 		api.get('/joy-garden/plants').set('Authorization', `Bearer ${token}`).expect(200).end((err, res) => {
 			expect(res.body).to.have.property('count')
 			expect(res.body.count).to.equal(0)
-			expect(res.body).to.have.property('jgPlants')
+			expect(res.body).to.have.property('plants')
 			done()
 		})
 	})
