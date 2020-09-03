@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 exports.books_get_all = (req, res, next) => {
 	Book.find({ userId: req.userData.userId })
 		.select('_id title author category pages img read readDate rating comments')
-		.sort({ title: 'desc', category: 'desc' })
+		.sort({ title: 'asc', category: 'asc' })
 		.exec()
 		.then(books => {
 			const response = {
